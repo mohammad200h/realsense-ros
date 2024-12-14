@@ -4,6 +4,9 @@ sudo xhost +local:root
 Build:
 sudo docker build  --network=host --build-arg UNAME=$USER --build-arg UID=$UID  -t ubuntu24:realsense .
 
+Network:
+docker network create ros2_net
+
 RUN:
 sudo docker run --runtime=nvidia -it --name real_sense \
 -v $(pwd)/realsense_ws:$(pwd)/realsense_ws \
@@ -19,7 +22,7 @@ sudo docker run --runtime=nvidia -it --name real_sense \
 -v /dev/video7:/dev/video7 \
 -v /dev/video8:/dev/video8 \
 -v /dev/video9:/dev/video9 \
---net=host --privileged ubuntu24:realsense
+--network=ros2_net --privileged ubuntu24:realsense
 
 
 

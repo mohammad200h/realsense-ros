@@ -38,7 +38,7 @@ RUN /bin/bash -c "source /opt/ros/humble/setup.bash && echo $ROS_DISTRO"
 ####### Real Sense ######
 RUN apt install -y  ros-humble-librealsense2*
 RUN apt-get install -y ros-humble-diagnostic-updater
-
+RUN apt install -y ros-humble-realsense2-camera
 #####Installing terminator ######
 RUN apt-get update
 
@@ -47,16 +47,13 @@ RUN  apt-get install -y terminator
 RUN mkdir /etc/xdg/terminator/
 ##########Setting up Sudo #######
 
-
 ARG UNAME=ubuntu
 ARG UID=1000
 ARG GID=1000
 ARG PASS=ros
 
-
 RUN apt-get update && apt-get install sudo -y
 RUN sudo -i
-
 
 RUN groupadd -g $GID -o $UNAME
 RUN sudo useradd -m -u $UID -g $GID -p $(openssl passwd -1 $PASS) -o -s  /bin/bash $UNAME
@@ -66,7 +63,6 @@ RUN usermod -aG sudo $UNAME
 
 USER $UNAME
 WORKDIR home/$UNAME/
-
 
 ###### Shell #######
 CMD /bin/bash
